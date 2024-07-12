@@ -1,4 +1,5 @@
-Einführung
+# Einführung
+
 Dieses Repository ist der Arbeit an der Dissertation mit dem Titel "Meine Diss" gewidmet. Das Hauptdokument ist sowohl im LyX- als auch im PDF-Format verfügbar, um den Zugriff und die Bearbeitung zu erleichtern.
 
 Verwendung
