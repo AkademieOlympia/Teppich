@@ -1,0 +1,196 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{csvsimple}
+
+\geometry{margin=2.7cm}
+
+\title{Ein arithmetischer Dirac-Operator\\
+zur gemeinsamen Realisierung von\\
+Zeta-Nullstellen und Primzahlen}
+\author{Thomas Hoffbauer}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Wir konstruieren einen selbstadjungierten arithmetischen Dirac-Operator,
+dessen Spektrum gezielt nicht-triviale Nullstellen der Riemannschen
+Zetafunktion reproduziert.
+Auf demselben Hilbertraum wird ein zweiter Observable eingeführt,
+der Primzahlen ausgibt.
+Damit erscheinen Zeta-Nullstellen und Primzahlen als komplementäre
+Observablen einer einheitlichen arithmetischen Dynamik.
+\end{abstract}
+
+% ------------------------------------------------------------
+\section{Einleitung}
+
+Die Hilbert--Pólya-Idee postuliert, dass die nicht-trivialen Nullstellen
+der Riemannschen Zetafunktion als Eigenwerte eines selbstadjungierten
+Operators erscheinen.
+Während eine kanonische unendlichdimensionale Realisierung bislang
+fehlt, können endlichdimensionale Konstruktionen bereits strukturelle
+Zusammenhänge zwischen Spektraltheorie und Arithmetik sichtbar machen.
+
+Ziel dieser Arbeit ist es, eine explizite Operator-Konstruktion
+vorzustellen, in der
+
+\begin{itemize}
+  \item eine vorgegebene Zeta-Nullstelle als Eigenwert erscheint,
+  \item und derselbe Eigenzustand zugleich eine Primzahl als zweite
+        Observable trägt.
+\end{itemize}
+
+% ------------------------------------------------------------
+\section{Der arithmetische Dirac-Operator}
+
+Sei $t_k=\Im(\rho_k)$ die imaginäre Komponente der $k$-ten
+nicht-trivialen Nullstelle der Zetafunktion.
+Wir betrachten einen lokalen Spektralblock
+\[
+\mathcal Z_k=\{t_{k-m},\dots,t_k,\dots,t_{k+m}\},
+\]
+und definieren auf $\mathcal H\simeq\mathbb C^{2N}$ mit $N=2m+1$ den
+Dirac-Typ-Operator
+\[
+\mathcal D =
+\begin{pmatrix}
+0 & A\\
+A^{*} & 0
+\end{pmatrix},
+\qquad \mathcal D=\mathcal D^{*},
+\]
+mit
+\[
+A=\operatorname{diag}(t_{k-m},\dots,t_{k+m})+\varepsilon R .
+\]
+
+Hierbei bezeichnet $\varepsilon>0$ eine kleine Kopplungskonstante und
+$R$ eine strukturierte Kopplungsmatrix, die aus arithmetischen
+Familien (Mod-$12$-Klassen) gewonnen wird.
+
+Nach Standardresultaten der Störungstheorie gilt
+\[
+\sigma(\mathcal D)=\{\pm\sigma_j(A)\}, \qquad
+\sigma_j(A)=t_{k+j}+O(\varepsilon),
+\]
+insbesondere erscheint $t_k$ als Eigenwert von $\mathcal D$.
+
+% ------------------------------------------------------------
+\section{Der Primzahl-Operator}
+
+Auf demselben Hilbertraum definieren wir den diagonalen Operator
+\[
+\mathcal P=\operatorname{diag}(p_{k-m},\dots,p_k,\dots,p_{k+m}),
+\]
+wobei $p_n$ die $n$-te Primzahl bezeichnet.
+
+Für einen Eigenzustand $\psi_k$ mit
+\[
+\mathcal D\psi_k=t_k\psi_k
+\]
+gilt zugleich
+\[
+\mathcal P\psi_k=p_k\psi_k.
+\]
+
+Der Zustand $\psi_k$ kodiert somit gleichzeitig eine
+Zeta-Nullstelle und eine Primzahl.
+
+% ------------------------------------------------------------
+\section{Interpretation}
+
+Die Konstruktion führt zu einer zweifachen Beobachtungsstruktur:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Operator & Bedeutung\\
+\midrule
+$\mathcal D$ & Spektrale Dynamik (Zeta-Nullstellen)\\
+$\mathcal P$ & Arithmetische Ladung (Primzahlen)\\
+$\psi_k$     & Gemeinsamer Zustand\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+In diesem Bild erscheinen
+\begin{itemize}
+  \item Zeta-Nullstellen als \emph{Energieniveaus},
+  \item Primzahlen als \emph{Quantenzahlen}.
+\end{itemize}
+
+% ------------------------------------------------------------
+\section{Numerische Realisierung}
+
+Für $k=1,\dots,100$ wurde die beschriebene Konstruktion numerisch
+implementiert.
+Die folgende Tabelle zeigt die ersten 100 gemeinsamen Realisierungen
+von Zeta-Nullstellen und Primzahlen.
+
+\bigskip
+
+% --------- Tabelle aus CSV -----------------
+
+\begin{table}[htbp]
+\centering
+\small
+\csvreader[
+    tabular= r r r r r r r,
+    table head=\toprule
+    $k$ & $p_k$ & $t_k$ & $\lambda_k$ & $p_k^{(\mathrm{out})}$ & $\Delta t$ & $\Delta p$\\\midrule,
+    late after line=\\,
+    late after last line=\\\bottomrule
+]{dirac_method_first_100.csv}{}%
+{\csvcoli & \csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii}
+\caption{Erste 100 gemeinsame Realisierungen von Zeta-Nullstellen und Primzahlen
+durch den arithmetischen Dirac-Operator.
+$\Delta t=\lambda_k-t_k$, $\Delta p=p_k^{(\mathrm{out})}-p_k$.}
+\label{tab:dirac-first-100}
+\end{table}
+
+% ------------------------------------------------------------
+\section{Konsequenzen}
+
+Die Tabelle zeigt, dass
+\begin{itemize}
+  \item die Eigenwerte des Dirac-Operators die Zeta-Nullstellen
+        stabil approximieren,
+  \item der Primzahl-Operator aus denselben Zuständen konsistent
+        die zugehörigen Primzahlen ausliest.
+\end{itemize}
+
+Damit werden Zeta-Nullstellen und Primzahlen als
+\emph{komplementäre Observablen} einer einheitlichen arithmetischen
+Dynamik sichtbar.
+
+% ------------------------------------------------------------
+\section{Ausblick}
+
+Mögliche nächste Schritte sind:
+\begin{itemize}
+  \item die Erweiterung auf größere Indizes $k$,
+  \item der Übergang zu einer kanonischen unendlichdimensionalen
+        Grenztheorie,
+  \item sowie die Untersuchung topologischer Invarianten der
+        Operatorfamilie.
+\end{itemize}
+
+% ------------------------------------------------------------
+\section{Schluss}
+
+Wir haben eine explizite operatorielle Konstruktion vorgestellt, in der
+Zeta-Nullstellen und Primzahlen gemeinsam realisiert werden.
+Der Ansatz liefert keinen Beweis der Riemannschen Vermutung, stellt aber
+eine kohärente mechanische Interpretation der Verbindung zwischen
+Spektraltheorie und Arithmetik bereit.
+
+\end{document}

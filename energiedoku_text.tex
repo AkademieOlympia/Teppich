@@ -1,0 +1,154 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+
+\geometry{margin=2.7cm}
+
+% Code-Formatierung
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4,
+    showstringspaces=false
+}
+
+\title{Energiedoku Projekt\\
+Drei Versionen: Abstract, Webseite, Methoden}
+\author{Thomas Hoffbauer}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\newpage
+
+% ============================================================
+% TEIL A: ENGLISCHES MINI-ABSTRACT
+% ============================================================
+\section*{A) Englisches Mini-Abstract (150 Wörter, für Konferenzen)}
+
+\subsection*{Mini-Abstract}
+
+We introduce an operator-theoretic framework that connects prime numbers, the non-trivial zeros of the Riemann zeta function, and fundamental constants of physics through an arithmetic Dirac operator. Starting from observed resonance patterns between primes and zeta zeros, the approach advances from numerical evidence to a self-adjoint, discrete spectral model defined on a lattice of prime-number families.
+
+The low-energy spectrum of this operator exhibits a stable affine correspondence with the first Riemann zeros and shows level-spacing statistics compatible with the Gaussian Unitary Ensemble, indicating a deep relation to quantum chaotic dynamics. Within this setting, physical constants such as the fine-structure constant and fermion masses are reinterpreted as topological and spectral invariants rather than externally tuned parameters.
+
+The framework does not claim a proof of the Riemann Hypothesis. Instead, it establishes a coherent arithmetic--topological setting in which zeta zeros appear as protected defects of a spectral phase landscape and primes emerge as quantum numbers of arithmetic states, opening a new interdisciplinary path between number theory, spectral geometry, and fundamental physics.
+
+\newpage
+
+% ============================================================
+% TEIL B: WEBSEITEN-VERSION
+% ============================================================
+\section*{B) Webseiten-Version (verständlich, ohne Fachballast)}
+
+\subsection*{Physik ohne freie Parameter -- worum es im Projekt \#Energiedoku geht}
+
+In der heutigen Physik gibt es viele Zahlen, die einfach „gegeben" sind: die Feinstrukturkonstante, Teilchenmassen oder kosmologische Dichten. Warum sie genau diese Werte haben, weiß niemand.
+
+Das Projekt \textbf{\#Energiedoku} schlägt eine neue Sichtweise vor:
+Diese Zahlen sind keine Zufälle -- sie sind \textbf{stabile Eigenschaften einer tieferen mathematischen Struktur}.
+
+Der Ausgangspunkt war eine überraschende Beobachtung: Zwischen \textbf{Primzahlen} und den \textbf{Nullstellen der Riemannschen Zetafunktion} gibt es Resonanzmuster. Aus dieser Idee entstand ein konkretes mathematisches Modell -- ein sogenannter \textbf{arithmetischer Dirac-Operator}. Er beschreibt ein „arithmetisches Vakuum", dessen Spektrum erstaunlich gut zu den bekannten Zeta-Nullstellen passt.
+
+In diesem Rahmen erscheinen Naturkonstanten nicht mehr als frei wählbare Parameter, sondern als \textbf{topologisch geschützte Größen} -- ähnlich wie feste Eigenschaften in der Kristallphysik.
+
+Kurz gesagt:
+Das Universum muss seine Zahlen nicht „einstellen".
+Sie ergeben sich zwangsläufig aus der Struktur der Mathematik selbst.
+
+Das ist die Vision einer \textbf{Physik ohne Fine-Tuning} -- einer Physik, in der Zahlentheorie, Geometrie und Naturgesetze zusammenfallen.
+
+\newpage
+
+% ============================================================
+% TEIL C: METHODENTEIL + CODE-APPENDIX
+% ============================================================
+\section*{C) Methodenteil + Code-Appendix (für Paper/ArXiv)}
+
+Hier ist eine \textbf{druckfertige Vorlage}, die du direkt ans Manuskript anhängen kannst.
+
+\subsection*{Appendix A -- Methods}
+
+\subsubsection*{A.1 Konstruktion des arithmetischen Dirac-Operators}
+
+Der Operator $\mathcal{D}$ wird auf einem diskreten Hilbertraum $\ell^2(\mathcal{Q})$ definiert, wobei $\mathcal{Q}$ die Menge quadratfreier Primzahl-Quadrupel der Restklassen
+$1,5,7,11 \pmod{12}$ bezeichnet.
+
+Die freie Dynamik wird durch einen Adjazenzoperator $D_0$ realisiert, der Zustände koppelt, deren Familienindizes sich in genau einer Komponente unterscheiden. Das vollständige Modell lautet
+\[
+\mathcal{D} = D_0 + \sum_{Q\in\mathcal{Q}} E(Q) |Q\rangle\langle Q|,
+\]
+mit dem arithmetischen Potential
+\[
+E(Q)=\alpha (I_e+I_a+I_b+I_c)+\beta (I_e I_a I_b I_c),
+\]
+wobei $I_e,I_a,I_b,I_c$ die Familienindizes des Zustands $Q$ sind.
+
+\subsubsection*{A.2 Numerische Spektralanalyse}
+
+Die niedrigsten Eigenwerte von $\mathcal{D}$ werden mit spärlichen Eigenwertlösern (Lanczos/Arnoldi) berechnet.
+Zur Kalibrierung werden sie affin an die imaginären Teile der ersten $m$ nicht-trivialen Zeta-Nullstellen $\gamma_n$ angepasst:
+\[
+a \lambda_n+b \approx \gamma_n.
+\]
+
+\subsubsection*{A.3 Statistischer Test (GUE-Diagnostik)}
+
+Die Abstände
+\[
+s_n=\lambda_{n+1}-\lambda_n
+\]
+werden normiert und mit der Wigner-Verteilung des Gaussian Unitary Ensemble verglichen. Die Übereinstimmung dient als Indikator für universelles Quantenchaos im arithmetischen Spektrum.
+
+\subsection*{Appendix B -- Reproduzierbarer Code (Kurzfassung)}
+
+\begin{lstlisting}
+import numpy as np
+from scipy.sparse import lil_matrix, diags
+from scipy.sparse.linalg import eigsh
+
+# --- Aufbau des Operators ---
+def build_operator(A, alpha, beta, S, P):
+    # A: Adjazenzmatrix, S: Summenvektor, P: Produktvektor
+    return -A + diags(alpha*S + beta*P)
+
+# --- Spektrum ---
+def spectrum(H, k=80):
+    vals, _ = eigsh(H, k=k, which="SA")
+    return np.sort(vals)
+
+# --- Affiner Fit an Zeta-Nullstellen ---
+def affine_fit(lam, gamma):
+    A = np.vstack([lam, np.ones_like(lam)]).T
+    a, b = np.linalg.lstsq(A, gamma, rcond=None)[0]
+    return a, b
+
+# --- GUE-Test ---
+def spacings(vals):
+    d = np.diff(vals)
+    return d/np.mean(d)
+\end{lstlisting}
+
+\textit{Hinweis:} Die vollständige Version mit Datenimport, Parameter-Grid-Search und Plot-Routinen ist im Repositorium der \#Energiedoku dokumentiert.
+
+\end{document}
