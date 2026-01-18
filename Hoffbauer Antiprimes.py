@@ -1,5 +1,13 @@
+#!/usr/bin/env sage -python
+# -*- coding: utf-8 -*-
+"""
+Hoffbauer Antiprimes - Berechnung mit SageMath
+"""
 # SageMath
 from sage.all import *
+# Sicherstellen, dass CC verfügbar ist (ComplexField für komplexe Zahlen)
+if 'CC' not in dir():
+    CC = ComplexField(53)  # Standard-Genauigkeit für komplexe Zahlen
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
