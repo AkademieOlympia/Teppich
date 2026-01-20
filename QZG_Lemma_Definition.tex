@@ -1,0 +1,149 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\theoremstyle{definition}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{definition}{Definition}[section]
+
+\title{Lemma und Definition: Quaternion-Formfaktor Q(k) für QZG}
+\author{Formale mathematische Grundlagen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Lemma: Exakte Fixierung eines Eigenwerts durch Nullraum-Bedingung}
+
+\textbf{Setup (wie im Manuskript).} 
+Sei $N=2m+1$ und
+\[
+A := \operatorname{diag}(t_{k-m},\dots,t_{k+m}) + \varepsilon R
+\quad \text{auf}\quad \mathbb{C}^{N},
+\]
+und
+\[
+D :=\begin{pmatrix}0&A\\A^*&0\end{pmatrix}
+\quad \text{auf}\quad \mathbb{C}^{N}\oplus \mathbb{C}^{N}.
+\]
+Sei $e_0\in\mathbb{C}^N$ der Standardbasisvektor, der die zentrale Position $k$ im Fenster markiert (also die Komponente zu $t_k$).
+
+\begin{lemma}[Exakte Fixierung eines Eigenwerts]
+Gilt
+\[
+R e_0=0\quad\text{und}\quad R^* e_0=0,
+\]
+so ist $e_0$ Eigenvektor von $A$ und $A^*$ mit Eigenwert $t_k$. Insbesondere sind
+\[
+\psi_\pm :=\frac{1}{\sqrt{2}}\binom{e_0}{\pm e_0}
+\]
+Eigenvektoren von $D$ mit
+\[
+D\psi_\pm=\pm t_k \psi_\pm.
+\]
+\end{lemma}
+
+\textbf{Beweis (3 Zeilen).}
+Aus $A=\operatorname{diag}(\cdot)+\varepsilon R$ folgt
+\[
+A e_0 = t_k e_0 + \varepsilon R e_0 = t_k e_0.
+\]
+Analog $A^* e_0 = t_k e_0$. Dann
+\[
+D\binom{e_0}{\pm e_0}=\binom{A(\pm e_0)}{A^* e_0}
+=\binom{\pm t_k e_0}{t_k e_0}=\pm t_k \binom{e_0}{\pm e_0}.
+\]
+$\square$
+
+\textbf{Kommentar im Tao-Ton:} Das ist ein \emph{linear-algebraisches Fixierungslemma} (kein ``Topologie-Schutz'' im technischen Sinn), aber als Designprinzip für $R$ sehr stark und exakt.
+
+\section{Definition: Quaternion-Formfaktor $Q(k)$ als prüfbare, endliche Größe}
+
+Wir benötigen eine Definition, die (i) \textbf{nur aus diskreten Daten} im Fenster stammt (Primklassen), (ii) die \textbf{Orientierung/$\pm$} abbildet, und (iii) \textbf{robust normalisiert} ist.
+
+\subsection{Klassenabbildung}
+
+Für jedes Index-Label $n$ (Primzahlindex) definiere die Familienklasse
+\[
+g(n)\in\{E,A,B,C\}
+\qquad\text{durch}\qquad
+p_n\bmod 12\in\{1,5,7,11\},
+\]
+mit $1\mapsto E$, $5\mapsto A$, $7\mapsto B$, $11\mapsto C$.
+
+\subsection{Quaternionische Orientierung als Vorzeichenfunktion}
+
+Fixiere einmalig eine Orientierung (z.B. $AB=+C$, $BC=+A$, $CA=+B$; Umkehrung gibt Minus). Definiere
+\[
+\operatorname{sgn}(X,Y;Z)\in\{-1,0,+1\}
+\]
+durch
+\begin{itemize}
+\item $=+1$, falls $XY=Z$ in der Quaternion-Tafel,
+\item $=-1$, falls $YX=Z$ (also $XY=-Z$),
+\item $=0$, sonst.
+\end{itemize}
+Damit ist ``Plus/Minus'' formal kodiert.
+
+\subsection{Fenster und Gewichte}
+
+Für ein Fenster $W_k:=\{k-m,\dots,k+m\}$ setze Gewichte $w_{ij}\ge 0$ (einfachste Wahl: $w_{ij}=1$ oder ein Taper $w_{ij}=e^{-|i-j|/\ell}$).
+
+\subsection{Formfaktor}
+
+\begin{definition}[Orientierter Quaternion-Formfaktor]
+Definiere den \textbf{orientierten} Quaternion-Formfaktor
+\[
+\boxed{
+Q(k)
+:=
+\frac{1}{Z_k}
+\sum_{\substack{i,j\in W_k\\ i\neq j}}
+w_{ij} \cdot \operatorname{sgn}\big(g(i),g(j);g(k)\big),
+}
+\qquad
+Z_k:=\sum_{\substack{i,j\in W_k\\ i\neq j}} w_{ij}.
+\]
+Dann gilt automatisch $|Q(k)|\le 1$.
+\end{definition}
+
+Optional (oft sinnvoll): der \textbf{unorientierte} Resonanzgrad
+\[
+Q_0(k):=\frac{1}{Z_k}\sum_{i\neq j} w_{ij} \cdot \mathbf{1}\{g(i)g(j)=g(k)\},
+\]
+und man berichtet beide: $Q_0(k)$ misst \emph{Resonanzhäufigkeit}, $Q(k)$ misst \emph{Orientierungsüberschuss}.
+
+\section{Minimale Testprozedur (falsifizierbar, robust)}
+
+Das ist eine schlanke ``Methods''-Box, die ins Paper gesetzt werden kann.
+
+\begin{enumerate}
+\item \textbf{Parameter fixieren:} Wähle $m$ (Fenstergröße), Gewichte $w_{ij}$, sowie ggf. $\varepsilon$ und eine Temperatur $\beta$ für die Entropie $S(\beta)$ aus $Z(\beta)=\mathrm{Tr}(e^{-\beta D})$.
+
+\item \textbf{Daten erzeugen:} Für $k$ in einem Intervall $[K,2K]$:
+   \begin{itemize}
+   \item berechne $Q(k)$ und/oder $Q_0(k)$,
+   \item berechne den lokalen Gap $G(k):=p_{k+1}-p_k$,
+   \item optional: berechne $S_k(\beta)$ aus dem lokalen Block-Dirac $D_k$.
+   \end{itemize}
+
+\item \textbf{Nullmodell:} Permutiere die Klassenlabels $g(i)$ innerhalb jedes Fensters (oder global), berechne $Q^{\mathrm{perm}}(k)$. Wiederhole $M$-mal.
+
+\item \textbf{Teststatistik:} z.B. Korrelation $\mathrm{corr}(Q(k),G(k))$ oder Regression
+   \[
+   G(k)=a+b \cdot Q(k)+c\log p_k+\text{Fehler}.
+   \]
+   Vergleiche die beobachtete Statistik gegen die Permutationsverteilung $\to$ p-Wert/CI.
+
+\item \textbf{Robustheit:} wiederhole für mehrere $(m,\beta,\varepsilon,w_{ij})$. Ein echter Effekt muss \textbf{stabil} bleiben.
+\end{enumerate}
+
+\textbf{Tao-kompatibler Claim}, wenn es klappt: \emph{``In dem getesteten Bereich zeigt $Q(k)$ eine statistisch signifikante, robuste Assoziation mit $G(k)$ relativ zu einem Permutationsnullmodell.''}
+
+Wenn es nicht klappt, hast du trotzdem ein sauberes Ergebnis (und kannst die Metapher entschärfen).
+
+\end{document}
